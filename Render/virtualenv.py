@@ -139,6 +139,7 @@ def rendervenv_worker():
             "PyQt6-WebEngine",
             "renderplugin",
             "QtPy",
+            "Ladybug-core"
         ]
 
         if not PARAMS.GetBool("DisableMaterialX"):
