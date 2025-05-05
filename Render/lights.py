@@ -610,7 +610,7 @@ class ViewProviderSunskyLight(
             sundir = fpo.SunDirection
             direction = (-sundir.x, -sundir.y, -sundir.z)
             self.coin.light.set_direction(direction)
-            #print("update_sun_direction")
+            # print("update_sun_direction")
         else:
             return
 
@@ -619,7 +619,7 @@ class ViewProviderSunskyLight(
         if fpo.SunPosition == True:
             import sun_position as sp
             sp.getSunPosition()
-            print("getsunposition")
+            # print("getsunposition")
         else:
             return
 
