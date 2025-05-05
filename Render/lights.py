@@ -355,6 +355,220 @@ class SunskyLight(FeatureBase):
             ),
             1.0,
         ),
+        ## New properties for sun position
+        # Light
+        "Color": Prop(
+            "App::PropertyColor",
+            "Light",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Color of light"
+                ),
+                (255, 255, 0)
+        ),
+        "Distance": Prop(
+            "App::PropertyLength",
+            "Light", 
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Light representation distance.\n"
+                "Note: This parameter has no impact on rendering"
+                 ),
+                 15000.00
+        ),
+        "LightRepresentation": Prop(
+            "App::PropertyBool",
+            "Light",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Choose true if light representation must be visible"
+                ),
+                True
+        ),
+        "Radius": Prop(
+            "App::PropertyLength",
+            "Light", 
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Light representation radius.\n"
+                "Note: This parameter has no impact on rendering"
+                ),
+                400.0
+        ),
+        "RayRepresentation": Prop(
+            "App::PropertyBool",
+            "Light", 
+            QT_TRANSLATE_NOOP( 
+                "App::Property",
+                "Choose true if light ray representation must be visible"
+                ),
+                False
+        ),
+        # Location
+        "City": Prop(
+            "App::PropertyString",
+            "Location",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "City of the location"
+                ),
+                "Sao Paulo"
+        ),
+        "Country": Prop(
+            "App::PropertyString",
+            "Location",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Country of the location"
+                ),
+                "BR"
+        ),
+        "Latitude": Prop(
+            "App::PropertyFloat",
+            "Location",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Latitude of the location"
+                ),
+                -23.57068
+        ),
+        "Longitude": Prop(
+            "App::PropertyFloat",
+            "Location",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Longitude of the location"
+                ),
+                -46.62683
+        ),
+        "North": Prop(
+            "App::PropertyAngle",
+            "Location",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Delta angle between the true north and Y axis direction"
+                ),
+                0
+        ),
+        "SunPosition": Prop(
+            "App::PropertyBool",
+            "Location",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Choose true if sun position by location must be applied"
+                ),
+                False
+        ),
+        "TimeZone": Prop(
+            "App::PropertyInteger",
+            "Location",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "UTC location"
+                ),
+                -3
+        ),
+        # Sun Results
+        "Altitude": Prop(
+            "App::PropertyFloat",
+            "SunResults",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Sun altitude - it is indicative only"
+                ),
+                24.46
+        ),
+        "Azimuth": Prop(
+            "App::PropertyFloat",
+            "SunResults",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Sun azimuth - it is indicative only"
+                ),
+                47.57
+        ),
+        "DaylightHours": Prop(
+            "App::PropertyString",
+            "SunResults",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Daylight hours - it is indicative only"
+                ),
+                "10:38:00"
+        ),
+        "Noon": Prop(
+            "App::PropertyString",
+            "SunResults",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Noon - it is indicative only"
+                ),
+                "21 jun 12:08"
+        ),
+        "Sunrise": Prop(
+            "App::PropertyString",
+            "SunResults",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Sunrise - it is indicative only"
+                ),
+                "21 jun 06:49"
+        ),
+        "Sunset": Prop(
+            "App::PropertyString",
+            "SunResults",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Sunset - it is indicative only"
+                ),
+                "21 jun 17:27"
+        ),
+        # Time
+        "Day": Prop(
+            "App::PropertyInteger",
+            "Time",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Set the day of the solar position"
+                ),
+                21
+        ),
+        "DaylightSaving": Prop(
+            "App::PropertyBool",
+            "Time",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Choose true if daylight saving must be applied"
+                ),
+                False
+        ),
+        "Month": Prop(
+            "App::PropertyInteger",
+            "Time",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Set the month of the solar position"
+                ),
+                6
+        ),
+        "Time": Prop(
+            "App::PropertyFloat",
+            "Time",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Set the time of the solar position (hours in decimals)"
+                ),
+                9.0
+        ),
+        "Year": Prop(
+            "App::PropertyInteger",
+            "Time",
+            QT_TRANSLATE_NOOP(
+                "App::Property",
+                "Set the year of the solar position"
+                ),
+                2025
+        ),
     }
 
     RENDERING_TYPE = RenderingTypes.SUNSKYLIGHT
@@ -369,14 +583,45 @@ class ViewProviderSunskyLight(
 
     DISPLAY_MODES = ["Shaded", "Wireframe"]
 
-    ON_UPDATE = {"SunDirection": "_update_sun_direction"}
+    #ON_UPDATE = {"SunDirection": "_update_sun_direction"}
+
+    #def _update_sun_direction(self, fpo):
+        #"""Update sunsky light direction."""
+        #sundir = fpo.SunDirection
+        #direction = (-sundir.x, -sundir.y, -sundir.z)
+        #self.coin.light.set_direction(direction)
+
+    ON_UPDATE = {"SunDirection": "_update_sun_direction",
+                 "Distance": "_update_sun_direction2",
+                 "Latitude": "_update_sun_direction2",
+                 "Longitude": "_update_sun_direction2",
+                 "North": "_update_sun_direction2",
+                 "SunPosition": "_update_sun_direction2",
+                 "TimeZone": "_update_sun_direction2",
+                 "Day": "_update_sun_direction2",
+                 "DaylightSaving": "_update_sun_direction2",
+                 "Month": "_update_sun_direction2",
+                 "Time": "_update_sun_direction2",
+                 }
 
     def _update_sun_direction(self, fpo):
         """Update sunsky light direction."""
-        sundir = fpo.SunDirection
-        direction = (-sundir.x, -sundir.y, -sundir.z)
-        self.coin.light.set_direction(direction)
+        if fpo.SunPosition == False:
+            sundir = fpo.SunDirection
+            direction = (-sundir.x, -sundir.y, -sundir.z)
+            self.coin.light.set_direction(direction)
+            #print("update_sun_direction")
+        else:
+            return
 
+    def _update_sun_direction2(self, fpo):
+        """Update sunsky light direction."""
+        if fpo.SunPosition == True:
+            import sun_position as sp
+            sp.getSunPosition()
+            print("getsunposition")
+        else:
+            return
 
 # ===========================================================================
 #                           Image-Based Light object
