@@ -617,7 +617,7 @@ class ViewProviderSunskyLight(
     def _update_sun_direction2(self, fpo):
         """Update sunsky light direction."""
         if fpo.SunPosition == True:
-            import sun_position as sp
+            from Render.plugins.sunposition import sun_position as sp
             sp.getSunPosition()
             # print("getsunposition")
         else:
