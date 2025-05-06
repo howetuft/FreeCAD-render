@@ -24,6 +24,8 @@
 
 
 import FreeCAD as App
+from Render.virtualenv import RENDER_VENV_DIR
+PATHPYTHON = RENDER_VENV_DIR
 from ladybug.location import Location # https://www.ladybug.tools/ladybug/docs/_modules/ladybug/location.html
 from ladybug.sunpath import Sunpath # https://www.ladybug.tools/ladybug/docs/_modules/ladybug/sunpath.html
 
