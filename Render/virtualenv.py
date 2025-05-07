@@ -139,7 +139,7 @@ def rendervenv_worker():
             "PyQt6-WebEngine",
             "renderplugin",
             "QtPy",
-            "Ladybug-core"
+            "Ladybug-core",
         ]
 
         if not PARAMS.GetBool("DisableMaterialX"):
@@ -419,6 +419,34 @@ def _bootstrap(url):
         urllib.request.urlretrieve(url, script)
         _log(f">>> Bootstrapping {path}")
         subprocess.run([python, "-u", script], check=True)
+
+
+# Run script into virtual env
+
+
+def run_script(script, options=None, log=None, loglevel=0):
+    """Run a script in Render virtual environment.
+
+    Returns: a subprocess.CompletedInstance
+    """
+    options = options or []
+    log = log or _log
+    if not (executable := get_venv_python()):
+        raise VenvError(3)
+    cmd = [executable, "-u", "-m", script] + options + [package]
+    log(" ".join([">>>"] + cmd))
+    environment = os.environ.copy()
+    environment.pop("PYTHONHOME", None)
+    environment.pop("PYTHONPATH", None)
+    environment.pop("PIP_USER", None)
+    res = subprocess.check_output(
+        cmd,
+        stderr=subprocess.STDOUT,
+        encoding="utf-8",
+        env=environment,
+        text=True,
+    )
+    return res
 
 
 # Error handling
