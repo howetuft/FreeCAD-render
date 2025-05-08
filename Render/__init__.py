@@ -81,6 +81,8 @@ from Render.material import (  # noqa: F401
 from Render.commands import RENDER_COMMANDS  # noqa: F401
 from Render.prefpage import PreferencesPage  # noqa: F401
 
+from Render.sunposition import sunposition  # noqa: F401
+
 from Render.virtualenv import ensure_rendervenv  # noqa: F401
 
 # Ensure we've got a Python virtual environment

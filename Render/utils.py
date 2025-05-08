@@ -298,6 +298,7 @@ def reload(module_name=None):
             "Render.renderers.utils.misc",
             "Render.rendermesh_mp.vector3d",
             "Render.rendermesh_mixins",
+            "Render.sunposition",
             "Render",
         ]
         if not PARAMS.GetBool("DisableMaterialX"):

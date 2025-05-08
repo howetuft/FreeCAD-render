@@ -55,7 +55,7 @@ import FreeCADGui as Gui
 from PySide import __version__ as PYSIDE_VERSION
 
 from Render.utils import find_python
-from Render.constants import PARAMS, WHEELSDIR
+from Render.constants import PARAMS, WHEELSDIR, PKGDIR
 from Render.rdrexecutor import RendererExecutor, ExporterWorker
 
 RENDER_VENV_FOLDER = ".rendervenv"
@@ -433,14 +433,15 @@ def run_script(script, options=None, log=None, loglevel=0):
     log = log or _log
     if not (executable := get_venv_python()):
         raise VenvError(3)
-    cmd = [executable, "-u", "-m", script] + options + [package]
-    log(" ".join([">>>"] + cmd))
+    cmd = [executable, "-u", "-m", script] + options
+    log(" ".join([">>>"] + [str(s) for s in cmd]))
     environment = os.environ.copy()
     environment.pop("PYTHONHOME", None)
     environment.pop("PYTHONPATH", None)
     environment.pop("PIP_USER", None)
     res = subprocess.check_output(
         cmd,
+        cwd=PKGDIR,
         stderr=subprocess.STDOUT,
         encoding="utf-8",
         env=environment,

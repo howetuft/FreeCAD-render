@@ -74,8 +74,8 @@ def compute_sun_coordinates(args):
         args.time_zone,
         args.elevation,
     )
-    sunpath = Sunpath(location)
-    solar_position = sunpath.calculate_sun(datetime_obj)
+    sunpath = Sunpath.from_location(location)
+    solar_position = sunpath.calculate_sun_from_date_time(datetime_obj)
 
     return {
         "solar_coordinates": {
